@@ -1,7 +1,7 @@
 package com.likelion.babel.service;
 
 import com.likelion.babel.domain.Member;
-import com.likelion.babel.form.Member.LoginForm;
+import com.likelion.babel.form.member.LoginForm;
 import com.likelion.babel.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

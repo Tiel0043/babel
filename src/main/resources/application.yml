@@ -6,7 +6,7 @@ spring:
     password: 1234
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     properties:
       hibernate:
         #        show_sql: true
@@ -16,3 +16,9 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
+
+openai:
+  model: gpt-3.5-turbo
+  api:
+    key: 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
+    url: https://api.openai.com/v1/chat/completions

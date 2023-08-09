@@ -1,4 +1,4 @@
-package com.likelion.babel.form.Member;
+package com.likelion.babel.form.member;
 
 import lombok.Getter;
 import lombok.Setter;

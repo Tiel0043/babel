@@ -1,6 +1,7 @@
 package com.likelion.babel.domain.post;
 
 import com.likelion.babel.domain.Category;
+import com.likelion.babel.domain.File;
 import com.likelion.babel.domain.Member;
 import lombok.Getter;
 import lombok.Setter;

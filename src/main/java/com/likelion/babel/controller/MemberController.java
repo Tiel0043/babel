@@ -1,8 +1,8 @@
 package com.likelion.babel.controller;
 
 import com.likelion.babel.domain.Member;
-import com.likelion.babel.form.Member.LoginForm;
-import com.likelion.babel.form.Member.MemberForm;
+import com.likelion.babel.form.member.LoginForm;
+import com.likelion.babel.form.member.MemberForm;
 import com.likelion.babel.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
