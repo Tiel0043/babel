@@ -9,10 +9,13 @@ import javax.persistence.*;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
-@Getter @Setter
-public class File {
+@Getter
+@Setter
+@Table(name = "file")
+public class Photo {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "file_id")
     private Long id;
 
@@ -20,10 +23,11 @@ public class File {
     @JoinColumn(name = "post_id")
     private Post post;
 
+    @Column(name = "file_name")
     private String name;
 
-    private String path;
-
-    private String covertPath;
+    @Lob
+    @Column(name = "file_data")
+    private byte[] data; // 이미지 데이터
 
 }

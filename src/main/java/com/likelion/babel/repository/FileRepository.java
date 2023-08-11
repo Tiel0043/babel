@@ -1,6 +1,6 @@
 package com.likelion.babel.repository;
 
-import com.likelion.babel.domain.File;
+import com.likelion.babel.domain.Photo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -11,18 +11,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FileRepository {
 
-    private EntityManager em;
+    private final EntityManager em;
 
-    public void save(File file){
+    public void save(Photo file){
         em.persist(file);
     }
 
-    public File getFile(Long id){
-        return em.find(File.class, id);
+    public Photo getFile(Long id){
+        return em.find(Photo.class, id);
     }
 
-    public List<File> getFiles(){
-        return em.createQuery("select f from File f")
+    public List<Photo> getFiles(){
+        return em.createQuery("select f from Photo f")
                 .getResultList();
     }
 

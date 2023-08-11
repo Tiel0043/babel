@@ -14,7 +14,8 @@ public class MemberRepository {
 
     private final EntityManager em;
 
-    // 회원 등록 로직 (Member 객체 INSERT)
+    // 회원 등록 로직 (Member 객체 INSERT)]
+
     public void save(Member member){
         em.persist(member);
     }

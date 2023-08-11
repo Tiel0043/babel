@@ -1,10 +1,14 @@
 package com.likelion.babel.domain.post;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
+@Getter @Setter
 public class EngPost {
 
     @Id
@@ -12,9 +16,14 @@ public class EngPost {
     @Column(name = "jpn_id")
     private Long id;
 
-    private String title; // 한글제목
+    private String title;
 
-    private String content; // 한글 내용
+    @Column(length=1000)
+    private String content;
+
+    private String sumamry; // 영어 요약
+
+    private String language = "en";
 
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "post_id")
