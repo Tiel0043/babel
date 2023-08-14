@@ -7,6 +7,7 @@ import com.likelion.babel.domain.post.EngPost;
 import com.likelion.babel.domain.post.JpnPost;
 import com.likelion.babel.domain.post.KorPost;
 import com.likelion.babel.domain.post.Post;
+import com.likelion.babel.dto.PostDto;
 import com.likelion.babel.dto.papago.TranslationResponse;
 import com.likelion.babel.form.post.PostForm;
 import com.likelion.babel.repository.*;
@@ -71,13 +72,13 @@ public class PostService {
             korPost.setPost(post);
             korPost.setTitle(ko_title.getMessage().getResult().getTranslatedText());
             korPost.setContent(ko_content.getMessage().getResult().getTranslatedText());
-            korPost.setSumamry(ko_summary.getMessage().getResult().getTranslatedText());
+            korPost.setSummary(ko_summary.getMessage().getResult().getTranslatedText());
             korPostRepository.save(korPost);
         }
         else{
             KorPost korPost = new KorPost();
             korPost.setPost(post);
-            korPost.setSumamry(post.getSummary());
+            korPost.setSummary(post.getSummary());
             korPost.setTitle(post.getTitle());
             korPost.setContent(post.getContent());
             korPostRepository.save(korPost);
@@ -92,13 +93,13 @@ public class PostService {
         jpnPost.setPost(post);
         jpnPost.setTitle(ja_title.getMessage().getResult().getTranslatedText());
         jpnPost.setContent(ja_content.getMessage().getResult().getTranslatedText());
-        jpnPost.setSumamry(ja_summary.getMessage().getResult().getTranslatedText());
+        jpnPost.setSummary(ja_summary.getMessage().getResult().getTranslatedText());
         jpnPostRepository.save(jpnPost);
         }
         else{
             JpnPost jpnPost = new JpnPost();
             jpnPost.setPost(post);
-            jpnPost.setSumamry(post.getSummary());
+            jpnPost.setSummary(post.getSummary());
             jpnPost.setTitle(post.getTitle());
             jpnPost.setContent(post.getContent());
             jpnPostRepository.save(jpnPost);
@@ -113,16 +114,106 @@ public class PostService {
             engPost.setPost(post);
             engPost.setTitle(en_title.getMessage().getResult().getTranslatedText());
             engPost.setContent(en_content.getMessage().getResult().getTranslatedText());
-            engPost.setSumamry(en_summary.getMessage().getResult().getTranslatedText());
+            engPost.setSummary(en_summary.getMessage().getResult().getTranslatedText());
             engPostRepository.save(engPost);
         } else{
             EngPost engPost = new EngPost();
             engPost.setPost(post);
-            engPost.setSumamry(post.getSummary());
+            engPost.setSummary(post.getSummary());
             engPost.setTitle(post.getTitle());
             engPost.setContent(post.getContent());
             engPostRepository.save(engPost);
         }
 
     }
+
+    public PostDto getPost(Long id, Member member) {
+
+        Post post = postRepository.findPost(id); // 1차로 영속성 컨텍스트를 뒤져 post객체를 가져온다.
+
+        PostDto postDto = new PostDto();
+        postDto.setId(post.getId());
+        postDto.setLikes(post.getLikes());
+        postDto.setDate(post.getDate());
+        postDto.setMember_nickName(post.getMember().getUserNickname());
+        postDto.setCategory_name(post.getCategory().getName());
+        postDto.setTitle(post.getTitle());
+        postDto.setContent(post.getContent());
+        postDto.setSummary(post.getSummary());
+        postDto.setHit(post.getHit());
+
+
+
+
+        if (member != null) { // 만약 회원이 있다면
+            String lang = member.getLanguage();
+            if(lang.equals("ko")){
+                KorPost korPost = korPostRepository.findByPostId(id);
+                postDto.setTitle(korPost.getTitle());
+                postDto.setContent(korPost.getContent());
+                postDto.setSummary(korPost.getSummary());
+
+            } else if (lang.equals("ja")) {
+                JpnPost jpnPost = jpnPostRepository.findByPostId(id);
+                postDto.setTitle(jpnPost.getTitle());
+                postDto.setContent(jpnPost.getContent());
+                postDto.setSummary(jpnPost.getSummary());
+            }else{
+                EngPost engPost = engPostRepository.findByPostId(id);
+                postDto.setTitle(engPost.getTitle());
+                postDto.setContent(engPost.getContent());
+                postDto.setSummary(engPost.getSummary());
+            }
+
+        }
+        return postDto;
+    }
+
+    public List<PostDto> getPosts(Member member, int page, String categoryName) {
+        Long cateId = categoryRepository.findByName(categoryName).getId(); // 카테고리 아이디 조회
+
+        List<PostDto> list = new ArrayList<>();
+
+        if(member != null){ // 로그인을 했다면
+            String lang = member.getLanguage();
+            if(lang.equals("ko")){
+                List<KorPost> korList = korPostRepository.findAll(page, cateId);
+                for(KorPost korPost : korList){
+                    Post post = korPost.getPost();
+
+                    list.add(new PostDto(post.getId(), post.getMember().getUserNickname(), post.getCategory().getName(),
+                            korPost.getTitle(), korPost.getContent(), korPost.getSummary(),
+                            post.getDate(), post.getHit(), post.getLikes()));
+                }
+            } else if (lang.equals("en")) {
+                List<EngPost> engList = engPostRepository.findAll(page, cateId);
+                for(EngPost engPost : engList){
+                    Post post = engPost.getPost();
+                    list.add(new PostDto(post.getId(), post.getMember().getUserNickname(), post.getCategory().getName(),
+                            engPost.getTitle(), engPost.getContent(), engPost.getSummary(),
+                            post.getDate(), post.getHit(), post.getLikes()));
+                }
+            }else {
+                List<JpnPost> jpnList = jpnPostRepository.findAll(page, cateId);
+                for (JpnPost jpnPost : jpnList) {
+                    Post post = jpnPost.getPost();
+                    list.add(new PostDto(post.getId(), post.getMember().getUserNickname(), post.getCategory().getName(),
+                            jpnPost.getTitle(), jpnPost.getContent(), jpnPost.getSummary(),
+                            post.getDate(), post.getHit(), post.getLikes()));
+                }
+            }
+        }else{ // 로그인 안했다면
+            List<Post> postList = postRepository.findList(page, cateId);
+            for(Post p : postList){
+                list.add(new PostDto(p.getId(), p.getMember().getUserNickname(), p.getCategory().getName(),
+                        p.getTitle(), p.getContent(), p.getSummary(),
+                        p.getDate(), p.getHit(), p.getLikes()));
+            }
+        }
+
+        return list;
+    }
+
+
+
 }

@@ -49,7 +49,9 @@ public class MemberController {
     @PostMapping("/members/logout")
     public ResponseEntity logout(HttpSession session) {
         // 로그아웃 시 세션에서 회원 정보를 제거
-        session.removeAttribute("loggedInMember");
+        if(session != null) {
+            session.invalidate();
+        }
         return ResponseEntity.ok("로그아웃되었습니다."); // 메시지를 JSON 형태로 응답
     }
 

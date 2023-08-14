@@ -21,11 +21,12 @@ public class PostRepository {
         return em.find(Post.class, id);
     }
 
-    public List<Post> findPosts(){
-        return em.createQuery("select * from Post p", Post.class)
+
+    public List<Post> findList(int page,Long cateId) {
+        return em.createQuery("select p from Post p where category.id = :cateId", Post.class)
+                .setParameter("cateId", cateId)
+                .setFirstResult(page - 1)
+                .setMaxResults(page * 10 - 1)
                 .getResultList();
     }
-
-
-
 }

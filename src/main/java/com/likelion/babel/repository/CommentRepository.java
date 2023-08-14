@@ -1,6 +1,6 @@
 package com.likelion.babel.repository;
 
-import com.likelion.babel.domain.Comment;
+import com.likelion.babel.domain.comment.Comment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -17,4 +17,9 @@ public class CommentRepository {
         em.persist(comment);
     }
 
+    public List<Comment> findAll(Long postId) {
+        return em.createQuery("select c from Comment c where c.post.id = :postId", Comment.class)
+                .setParameter("postId", postId)
+                .getResultList();
+    }
 }

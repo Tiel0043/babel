@@ -19,9 +19,6 @@ public class Post {
     @Column(name = "post_id")
     private Long id;
 
-//    @OneToOne(fetch = LAZY, mappedBy = "post", cascade = CascadeType.ALL)
-//    private langPost langPost;
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member; // FK

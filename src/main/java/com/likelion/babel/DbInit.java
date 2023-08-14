@@ -17,7 +17,7 @@ public class DbInit {
     private final MemberService memberService;
     private final CategoryRepository categoryRepository;
 
-    @PostConstruct // 초기화 데이터 DB 삽입
+//    @PostConstruct // 초기화 데이터 DB 삽입
     public void init() {
         saveMember("abc", "1234", "ja", LocalDateTime.now(), "naver.com", "일본인");
         saveMember("abcd", "1234", "ko", LocalDateTime.now(), "naver.com", "한국인");

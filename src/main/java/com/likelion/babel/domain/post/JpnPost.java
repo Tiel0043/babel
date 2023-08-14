@@ -5,6 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import java.time.LocalDateTime;
+
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
@@ -21,14 +23,12 @@ public class JpnPost {
     @Column(length=1000)
     private String content; // 한글 내용
 
-    private String sumamry; // 일본 요약
+    private String summary; // 일본 요약
 
     private String language = "ja";
 
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
-
-
 
 }

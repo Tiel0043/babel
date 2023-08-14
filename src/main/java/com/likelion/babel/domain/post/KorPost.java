@@ -1,9 +1,14 @@
 package com.likelion.babel.domain.post;
 
+import com.likelion.babel.domain.Category;
+import com.likelion.babel.domain.Member;
+import com.likelion.babel.form.post.PostForm;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -19,7 +24,7 @@ public class KorPost {
 
     private String content; // 한글 내용
 
-    private String sumamry; // 한글 요약
+    private String summary; // 한글 요약
 
     private String language = "ko";
 
