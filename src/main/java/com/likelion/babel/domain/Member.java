@@ -3,10 +3,7 @@ package com.likelion.babel.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -29,8 +26,9 @@ public class Member {
     @Column(name = "member_lang")
     private String language;
 
-    @Column(name = "member_profile")
-    private String profile;
+    @Lob
+    @Column(name = "member_profile", length = 1000)
+    private byte[] profile;
 
     @Column(name = "member_joinDate")
     private LocalDateTime memberJoinDate;

@@ -29,7 +29,9 @@ public class Post {
 
     private String title; // 제목
 
+    @Column(length = 1000)
     private String content; // 내용
+
 
     private String summary; // 요약
 

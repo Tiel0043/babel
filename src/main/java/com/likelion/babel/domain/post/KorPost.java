@@ -22,6 +22,7 @@ public class KorPost {
 
     private String title; // 한글제목
 
+    @Column(length = 1000)
     private String content; // 한글 내용
 
     private String summary; // 한글 요약

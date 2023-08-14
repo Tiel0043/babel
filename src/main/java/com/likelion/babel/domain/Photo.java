@@ -27,7 +27,7 @@ public class Photo {
     private String name;
 
     @Lob
-    @Column(name = "file_data")
+    @Column(name = "file_data", length = 1000)
     private byte[] data; // 이미지 데이터
 
 }

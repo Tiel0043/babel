@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 @RestController // ResponseBody + Controller
@@ -21,13 +22,13 @@ public class MemberController {
     private final MemberService memberService; // 해당 객체를 스프링 빈이 관리
 
     @PostMapping("/members/signup") // 해당 url로 포스트 매핑
-    public void create(@RequestBody MemberForm form) {
+    public void create(MemberForm form) throws IOException {
         Member member = new Member();
         member.setUserId(form.getUserId());
         member.setUserPassword(form.getUserPassword());
         member.setUserNickname(form.getUserNickname());
         member.setLanguage(form.getLanguage());
-        member.setProfile(form.getProfile());
+        member.setProfile(form.getProfile().getBytes());
         member.setMemberJoinDate(LocalDateTime.now());
 
         memberService.join(member);
