@@ -32,7 +32,7 @@ public class Post {
     @Column(length = 1000)
     private String content; // 내용
 
-
+    @Column(length=1000)
     private String summary; // 요약
 
     private LocalDateTime date; // 게시글 작성일

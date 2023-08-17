@@ -23,6 +23,7 @@ public class EngPost {
     @Column(length=1000)
     private String content;
 
+    @Column(length=1000)
     private String summary; // 영어 요약
 
     private String language = "en";

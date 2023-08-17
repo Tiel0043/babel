@@ -2,6 +2,7 @@ package com.likelion.babel.controller;
 
 import com.likelion.babel.domain.Member;
 import com.likelion.babel.dto.PostDto;
+import com.likelion.babel.dto.PostListDto;
 import com.likelion.babel.form.post.PostForm;
 import com.likelion.babel.repository.FileRepository;
 import com.likelion.babel.repository.MemberRepository;
@@ -37,7 +38,7 @@ public class PostController {
             return ResponseEntity.ok("게시글이 작성되었습니다.");
         } else {
             // 로그인되어 있지 않음
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("need Login");
         }
     }
 
@@ -52,9 +53,9 @@ public class PostController {
     }
 
     @GetMapping("/post")
-    public List<PostDto> getPost(@RequestParam int page, @RequestParam String category, HttpSession session){
+    public PostListDto getPost(@RequestParam int page, @RequestParam String category, HttpSession session){
         Member member = (Member) session.getAttribute("member");
-        List<PostDto> list = postService.getPosts(member, page, category);
+        PostListDto list = postService.getPosts(member, page, category);
         return list;
     }
 

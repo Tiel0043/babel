@@ -6,7 +6,7 @@ spring:
     password: 1234
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         #        show_sql: true
@@ -23,9 +23,6 @@ logging:
 #  api:
 #    key: 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
 #    url: https://api.openai.com/v1/chat/completions
-
-chatgpt:
-  api-key: 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
 
 papago:
   client:

@@ -8,6 +8,7 @@ import com.likelion.babel.domain.post.JpnPost;
 import com.likelion.babel.domain.post.KorPost;
 import com.likelion.babel.domain.post.Post;
 import com.likelion.babel.dto.PostDto;
+import com.likelion.babel.dto.PostListDto;
 import com.likelion.babel.dto.papago.TranslationResponse;
 import com.likelion.babel.form.post.PostForm;
 import com.likelion.babel.repository.*;
@@ -43,7 +44,7 @@ public class PostService {
         // 엔티티 조회
         Category category = categoryRepository.findByName(postForm.getCategory());
 
-        String summary = chatgptService.sendMessage(postForm.getContent() + "\n 100자 이내로 요약해줘");
+        String summary = chatgptService.sendMessage(postForm.getContent() + "\n 50자 이내로 요약해줘");
 
         Post post = Post.createPost(member, category, postForm, summary);
 
@@ -169,7 +170,7 @@ public class PostService {
         return postDto;
     }
 
-    public List<PostDto> getPosts(Member member, int page, String categoryName) {
+    public PostListDto getPosts(Member member, int page, String categoryName) {
         Long cateId = categoryRepository.findByName(categoryName).getId(); // 카테고리 아이디 조회
 
         List<PostDto> list = new ArrayList<>();
@@ -211,7 +212,10 @@ public class PostService {
             }
         }
 
-        return list;
+        long count = postRepository.totalCount(cateId);
+        boolean hasNext = (page * 10) < count;
+
+        return new PostListDto(page, hasNext, list);
     }
 
 

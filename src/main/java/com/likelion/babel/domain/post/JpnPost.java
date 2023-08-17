@@ -23,6 +23,7 @@ public class JpnPost {
     @Column(length=1000)
     private String content; // 한글 내용
 
+    @Column(length=1000)
     private String summary; // 일본 요약
 
     private String language = "ja";

@@ -25,6 +25,7 @@ public class KorPost {
     @Column(length = 1000)
     private String content; // 한글 내용
 
+    @Column(length=1000)
     private String summary; // 한글 요약
 
     private String language = "ko";
