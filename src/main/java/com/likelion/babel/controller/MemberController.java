@@ -53,7 +53,7 @@ public class MemberController {
         if(session != null) {
             session.invalidate();
         }
-        return ResponseEntity.ok("로그아웃되었습니다."); // 메시지를 JSON 형태로 응답
+        return ResponseEntity.ok("LogOut"); // 메시지를 JSON 형태로 응답
     }
 
 }

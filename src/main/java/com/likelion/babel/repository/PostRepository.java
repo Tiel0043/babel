@@ -25,7 +25,7 @@ public class PostRepository {
     public List<Post> findList(int page,Long cateId) {
         return em.createQuery("select p from Post p where category.id = :cateId", Post.class)
                 .setParameter("cateId", cateId)
-                .setFirstResult(page - 1 * 10)
+                .setFirstResult((page - 1) * 10)
                 .setMaxResults(page * 10 - 1)
                 .getResultList();
     }

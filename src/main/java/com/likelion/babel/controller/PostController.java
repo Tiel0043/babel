@@ -34,7 +34,6 @@ public class PostController {
 
         if (member != null) {
             postService.post(member, postForm);
-
             return ResponseEntity.ok("게시글이 작성되었습니다.");
         } else {
             // 로그인되어 있지 않음

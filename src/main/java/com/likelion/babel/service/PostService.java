@@ -171,9 +171,12 @@ public class PostService {
     }
 
     public PostListDto getPosts(Member member, int page, String categoryName) {
+        System.out.println("제발");
         Long cateId = categoryRepository.findByName(categoryName).getId(); // 카테고리 아이디 조회
 
         List<PostDto> list = new ArrayList<>();
+
+        System.out.println("여기냐1");
 
         if(member != null){ // 로그인을 했다면
             String lang = member.getLanguage();
@@ -187,6 +190,7 @@ public class PostService {
                             post.getDate(), post.getHit(), post.getLikes()));
                 }
             } else if (lang.equals("en")) {
+                System.out.println("여기냐2");
                 List<EngPost> engList = engPostRepository.findAll(page, cateId);
                 for(EngPost engPost : engList){
                     Post post = engPost.getPost();
@@ -194,6 +198,7 @@ public class PostService {
                             engPost.getTitle(), engPost.getContent(), engPost.getSummary(),
                             post.getDate(), post.getHit(), post.getLikes()));
                 }
+                System.out.println("여기냐3");
             }else {
                 List<JpnPost> jpnList = jpnPostRepository.findAll(page, cateId);
                 for (JpnPost jpnPost : jpnList) {
