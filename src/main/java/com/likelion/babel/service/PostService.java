@@ -14,7 +14,6 @@ import com.likelion.babel.form.post.PostForm;
 import com.likelion.babel.repository.*;
 import io.github.flashvayne.chatgpt.service.ChatgptService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -173,8 +172,6 @@ public class PostService {
     }
 
     public PostListDto getPosts(Member member, int page, String categoryName) {
-        log.info("회원 언어" + member.getLanguage());
-
         Long cateId = categoryRepository.findByName(categoryName).getId(); // 카테고리 아이디 조회
 
         List<PostDto> list = new ArrayList<>();
@@ -182,11 +179,7 @@ public class PostService {
 
         if(member != null){ // 로그인을 했다면
             String lang = member.getLanguage();
-            log.info("회원 언어" + member.getLanguage());
-
             if(lang.equals("ko")){
-                log.info("회원 ko언어" + member.getLanguage());
-
                 List<KorPost> korList = korPostRepository.findAll(page, cateId);
                 for(KorPost korPost : korList){
                     Post post = korPost.getPost();
@@ -196,8 +189,6 @@ public class PostService {
                             post.getDate(), post.getHit(), post.getLikes()));
                 }
             } else if (lang.equals("en")) {
-                log.info("회원 en 언어" + member.getLanguage());
-
                 List<EngPost> engList = engPostRepository.findAll(page, cateId);
                 for(EngPost engPost : engList){
                     Post post = engPost.getPost();
@@ -206,8 +197,6 @@ public class PostService {
                             post.getDate(), post.getHit(), post.getLikes()));
                 }
             }else {
-                log.info("회원 ja 언어" + member.getLanguage());
-
                 List<JpnPost> jpnList = jpnPostRepository.findAll(page, cateId);
                 for (JpnPost jpnPost : jpnList) {
                     Post post = jpnPost.getPost();
@@ -217,7 +206,6 @@ public class PostService {
                 }
             }
         }else{ // 로그인 안했다면
-            log.info("로그인 안됨ㅋ");
             List<Post> postList = postRepository.findList(page, cateId);
             for(Post p : postList){
                 list.add(new PostDto(p.getId(), p.getMember().getUserNickname(), p.getCategory().getName(),
